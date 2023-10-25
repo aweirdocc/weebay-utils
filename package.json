@@ -1,6 +1,7 @@
 {
   "name": "weebay-utils",
-  "version": "1.0.5",
+  "type": "module",
+  "version": "1.0.6",
   "description": "personal toolkit",
   "repository": {
     "type": "git",
@@ -37,6 +38,7 @@
     "@rollup/plugin-commonjs": "^25.0.7",
     "@rollup/plugin-node-resolve": "^15.2.3",
     "@types/node": "^20.8.3",
+    "@typescript-eslint/eslint-plugin": "^6.9.0",
     "eslint": "8.31.0",
     "lint-staged": "^14.0.1",
     "pnpm": "^8.8.0",

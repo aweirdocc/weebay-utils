@@ -2,7 +2,7 @@
 
 一些自用的工具方法
 
-- IS 类
+- Validate 类
   - isUndefined
   - isNaN
   - isArray

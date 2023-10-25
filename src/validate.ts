@@ -65,6 +65,20 @@ export const isObject = (val: unknown): boolean => {
 };
 
 /**
+ * 校验原始类型
+ */
+export const isPrimitiveType = (val: unknown): boolean => {
+  return (
+    typeof val === 'number' ||
+    typeof val === 'string' ||
+    typeof val === 'boolean' ||
+    typeof val === 'symbol' ||
+    val === null ||
+    typeof val === 'undefined'
+);
+};
+
+/**
  * 校验 Map 类型
  */
 export const isMap = kindOfTest('Map');
@@ -201,5 +215,46 @@ export const isEmail = (value:string): boolean => {
     /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
   return reg.test(value);
 };
+
+/**
+ * 是否是移动端
+ */
+export const isMobile = ():boolean => {
+  if (
+    navigator.userAgent.match(
+      /(iPhone|iPod|Android|ios|iOS|iPad|Backerry|WebOS|Symbian|Windows Phone|Phone)/i
+    )
+  ) {
+    return true;
+  }
+  
+  return false;
+};
+
+
+const compare = (v1: any, v2: any): boolean => {
+  return v1 === v2;
+}
+
+/**
+ * 传入的两个值是否相同
+ * @param val1 
+ * @param val2 
+ * @param isDeep 是否深度检查
+ * @returns 
+ */
+export const isEqual = (val1: unknown, val2: unknown, isDeep: boolean = true): boolean => {
+  if (isPrimitiveType(val1) && isPrimitiveType(val2)) {
+    return compare(val1, val2);
+  }
+
+  if (val1 && val2) {
+    if (isDate(val1)) {
+      return compare(+val1, +val2)
+    }
+  }
+
+  return false;
+}
 
 

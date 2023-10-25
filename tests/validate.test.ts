@@ -1,5 +1,21 @@
 import { describe, it, expect } from 'vitest'
-import { isString, isNumber, isUndefined, isArray, isObject, isEmpty, isDate, isMap, isSet, isEmail, isUrl, isColor, isIdCard, isTelNumber } from '../src/validate'
+import {
+  isString,
+  isNumber,
+  isUndefined,
+  isArray,
+  isObject,
+  isEmpty,
+  isDate,
+  isMap,
+  isSet,
+  isEmail,
+  isUrl,
+  isColor,
+  isIdCard,
+  isTelNumber,
+  isEqual
+} from '../src/validate'
 
 
 describe('is', () => {
@@ -33,5 +49,11 @@ describe('is', () => {
     expect(isUrl('www.1.com')).toEqual(true)
     expect(isUrl('1.com')).toEqual(true)
     expect(isUrl('http://1.com')).toEqual(true)
+
+    expect(isEqual(1, '1')).toEqual(false);
+    expect(isEqual(1, 1)).toEqual(true);
+    expect(isEqual(undefined, undefined)).toEqual(true);
+    expect(isEqual(new Date('2020-01-01'), new Date('2021-01-01'))).toEqual(false);
+    expect(isEqual(new Date('2020-01-01 00:00:00'), new Date('2020-01-01 00:00:00'))).toEqual(true);
   })
 })
