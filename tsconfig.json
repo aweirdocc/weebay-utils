@@ -1,0 +1,31 @@
+{
+  "compilerOptions": {
+    "target": "es2018",
+    "lib": ["esnext", "dom"],
+    "declaration": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "strict": true,
+    "strictNullChecks": true,
+    "esModuleInterop": true,
+    "skipDefaultLibCheck": true,
+    "skipLibCheck": true,
+    "sourceMap": true,
+    "outDir": "./dist",
+    "baseUrl": "./",
+    "types": ["node"]
+  },
+
+  "exclude": [
+    "node_modules",
+    "tests",
+    "dist",
+    "**/*spec.ts",
+    ".git"
+  ],
+
+  "ts-node": {
+    "files": true
+  }
+}
