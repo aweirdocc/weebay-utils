@@ -33,7 +33,6 @@
   "author": "alilis",
   "license": "ISC",
   "devDependencies": {
-    "@antfu/eslint-config": "^1.0.0-beta.22",
     "@rollup/plugin-alias": "^5.0.1",
     "@rollup/plugin-commonjs": "^25.0.7",
     "@rollup/plugin-node-resolve": "^15.2.3",
@@ -55,8 +54,5 @@
     "*.{js,jsx,ts,tsx}": [
       "eslint --fix"
     ]
-  },
-  "dependencies": {
-    "chalk": "^4.1.2"
   }
 }
