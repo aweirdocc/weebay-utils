@@ -1,5 +1,11 @@
-import { isArray, isFunction } from "./validate";
+import { isArray } from "./validate";
 
+/**
+ * 在一个数组中找到目标值的索引链
+ * @param arr 
+ * @param key 
+ * @returns 
+ */
 export const searchIndexForKey = (arr: any[], key: any): any[] => {
   const result = [];
 
@@ -20,6 +26,12 @@ export const searchIndexForKey = (arr: any[], key: any): any[] => {
   return result;
 }
 
+/**
+ * 深度循环遍历数组
+ * @param arr 
+ * @param cb 
+ * @returns 
+ */
 export const mapArray = (arr: any[], cb: (arrItem: any, arrItemIndex: number) => void): any[] => {
   return arr.map((item, index) => {
     if (isArray(item)) {

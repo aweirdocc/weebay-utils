@@ -25,7 +25,9 @@
   - isEqual (TODO)
   - isSameDate (TODO)
 - Object 类
-  - getKeys (TODO)
+  - getKeys
+  - entries
+  - getValueByKey
   - getValues (TODO)
   - get (TODO)
   - set (TODO)
@@ -51,4 +53,7 @@
 - String 类
   - camelCase2Delimiter
   - delimiter2CamelCase  
+- Array 类
+  - mapArray
+  - searchIndexForKey
 

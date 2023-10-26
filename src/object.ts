@@ -11,24 +11,13 @@ export const entries = (val: Record<string, any>): any[] => {
     return [];
   }
 
-  const entriesObj = Object.entries(val);
-
-  for (const item of entriesObj) {
-    if (isObject(item)) {
-      item[1] = entries(item)
+  return Object.entries(val).map(([key, value]) => {
+    if (isObject(value)) {
+      return [key, entries(value)];
+    } else {
+      return [key, value];
     }
-  }
-
-  return entriesObj;
-
-
-  // return Object.entries(val).map(([key, value]) => {
-  //   if (isObject(value)) {
-  //     return [key, entries(value)];
-  //   } else {
-  //     return [key, value];
-  //   }
-  // })
+  })
 }
 
 /**
@@ -66,18 +55,27 @@ export const getKeyIndex = (obj: object, key: string): number[][] => {
   return searchIndexForKey(keys, key)
 }
 
+/**
+ * 找出对象的属性值
+ * @param obj 
+ * @param key 
+ * @returns 
+ */
 export const getValueByKey = (obj: object, key: string): any[][] => {
   const objEntries = entries(obj);
   const indexs = getKeyIndex(obj, key);
 
-
-  return indexs.map((indexList) => {
+  const result = indexs.map((indexList) => {
     let result = objEntries;
 
     indexList.forEach(indexVal => {
-      result = result[indexVal]
+      if (result?.[indexVal]) {
+        result = key === result[indexVal] ? result[indexVal+1] : result[indexVal];
+      }
     })
 
-    return result
+    return result;
   });
+
+  return result?.[0];
 }

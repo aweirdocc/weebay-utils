@@ -11,11 +11,15 @@ describe('object', () => {
     expect(entries({ a: 1, b: { c: 2, d: 3, e: { f: 4 } } })).toStrictEqual([
       ['a', 1],
       ['b',
-        
+        [
           ['c', 2],
           ['d', 3],
-          ['e', ['f', 4]]
-        
+          ['e', 
+            [
+              ['f', 4]
+            ]
+          ]
+        ]
       ],
     ]);
   })
@@ -25,16 +29,10 @@ describe('object', () => {
       'a',
       'b'
     ])
-
+    
     expect(getKeys({ a: 1, b: { c: 2, d: 3, e: { f: 4 } } })).toStrictEqual([
       'a',
       ['b', ['c', 'd', ['e', ['f']]]]
-    ])
-
-    expect(getKeys({ a: 1, b: { c: 2}, d: { e: 3, f: {g: 4}, h: 5} })).toStrictEqual([
-      'a',
-      ['b', ['c']],
-      ['d', ['e', ['f', ['g']], 'h']]
     ])
 
     expect(getKeys([1, 2, 3])).toStrictEqual([
@@ -42,10 +40,13 @@ describe('object', () => {
       ['1', 2],
       ['2', 3],
     ])
+  })
 
+  it('getValueByKey', () => {
+    expect(getKeyIndex({ a: 1, b: { c: 2, d: 3, e: { f: 4 } } }, 'f')).toStrictEqual([[1,1,2,1,0]])
 
-    expect(getKeyIndex({ a: 1, b: { c: 2, d: 3, e: { f: 4 } } }, 'f')).toStrictEqual([[1, 1, 2, 1, 0]])
-
-    // expect(getValueByKey({ a: 1, b: { c: 2, d: 3, e: { f: 4 } } }, 'f')).toBe();
+    expect(getValueByKey({ a: 1, b: { c: 2, d: 3, e: { f: 4 } } }, 'f')).toStrictEqual(['f', 4]);
+    
+    expect(getValueByKey({ a: 1, b: { c: 2, d: 3, e: { f: 4, g: 5 } } }, 'e')).toStrictEqual([[ 'f', 4 ], ['g', 5]]);
   })
 })

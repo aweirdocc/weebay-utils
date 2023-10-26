@@ -5,6 +5,11 @@ describe('array', () => {
   it('searchIndexForKey', () => {
     expect(searchIndexForKey(
       [1, 2, [3, 4, [5, 6], 7], 8],
+      10
+    )).toStrictEqual([]);
+
+    expect(searchIndexForKey(
+      [1, 2, [3, 4, [5, 6], 7], 8],
       5
     )).toStrictEqual([[2, 2, 0]]);
 
