@@ -18,7 +18,7 @@ interface IInterval {
  */
 export const intervalFn = (cb: IFunction, delay: number): IInterval => {
   let timer: number | null;
-  const rAF  = 
+  const rAF =
     (function () {
       return (
         window.requestAnimationFrame ||
@@ -30,34 +30,36 @@ export const intervalFn = (cb: IFunction, delay: number): IInterval => {
       );
     })();
 
-  return {
-    start() {
-      let startTime = Date.now();
-      let endTime = Date.now();
+  const start = () => {
+    let startTime = Date.now();
+    let endTime = Date.now();
 
-      const self = this;  
-      const loop = () => {
-        timer = rAF(loop);
-        endTime = Date.now();
-
-        if (endTime - startTime >= delay) {
-          endTime = startTime = Date.now();
-          cb && cb();
-          (self as IInterval).stop();  // 在回调执行后停止定时器  
-        }
-      };
-
+    const loop = () => {
       timer = rAF(loop);
+      endTime = Date.now();
 
-      return timer;
-    },
+      if (endTime - startTime >= delay) {
+        endTime = startTime = Date.now();
+        cb?.();
+        stop();  // 在回调执行后停止定时器  
+      }
+    };
 
-    stop() {
-      if(timer){  // 确保timer存在再取消定时器  
-        cancelAnimationFrame(timer);   
-        timer = null;   
-      }     
+    timer = rAF(loop);
+
+    return timer;
+  };
+
+  const stop = () => {
+    if (timer) {  // 确保timer存在再取消定时器  
+      cancelAnimationFrame(timer);
+      timer = null;
     }
+  }
+
+  return {
+    start,
+    stop
   };
 };
 

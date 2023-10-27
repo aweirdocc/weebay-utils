@@ -1,4 +1,4 @@
-import { mapArray, searchIndexForKey } from './../src/array';
+import { flattenArray, mapArray, searchIndexForKey } from './../src/array';
 import { describe, it, expect } from 'vitest'
 
 describe('array', () => {
@@ -24,5 +24,13 @@ describe('array', () => {
 
   it('mapArray', () => {
     expect(mapArray([1, 2, [3, [4]]], (item) => item * 2)).toStrictEqual([2, 4, [6, [8]]]);
+  })
+
+  it('flattenArray', () => {
+    expect(flattenArray([])).toStrictEqual([]);
+
+    expect(flattenArray([1, 2, [3, [4]]])).toStrictEqual([1, 2, 3, 4]);
+    
+    expect(flattenArray([[1, 2, 3], [4]])).toStrictEqual([1, 2, 3, 4]);
   })
 })

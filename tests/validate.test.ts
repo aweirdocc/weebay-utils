@@ -24,9 +24,15 @@ describe('is', () => {
     expect(isNumber(12)).toEqual(true)
     expect(isUndefined(undefined)).toEqual(true)
     expect(isArray([])).toEqual(true)
+
     expect(isObject({})).toEqual(true)
+    expect(isObject(new Set())).toEqual(true)
+    expect(isObject(new Map())).toEqual(true)
+
     expect(isDate(new Date())).toEqual(true)
+
     expect(isMap(new Map())).toEqual(true)
+    
     expect(isSet(new Set())).toEqual(true)
 
     expect(isEmpty({})).toEqual(true)

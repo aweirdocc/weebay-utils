@@ -1,4 +1,4 @@
-import { entries, getKeyIndex, getKeys, getValueByKey } from './../src/object';
+import { entries, getKeyIndex, getKeys, get, has, entries2obj } from './../src/object';
 import { describe, it, expect } from 'vitest'
 
 describe('object', () => {
@@ -42,11 +42,47 @@ describe('object', () => {
     ])
   })
 
-  it('getValueByKey', () => {
+  it('getKeyIndex', () => {
     expect(getKeyIndex({ a: 1, b: { c: 2, d: 3, e: { f: 4 } } }, 'f')).toStrictEqual([[1,1,2,1,0]])
+  })
 
-    expect(getValueByKey({ a: 1, b: { c: 2, d: 3, e: { f: 4 } } }, 'f')).toStrictEqual(['f', 4]);
+  it('entries2obj', () => {
+    expect(entries2obj([])).toStrictEqual({});
+    expect(entries2obj([
+      ['c', 2],
+      ['d', 3],
+      ['e', 
+        [
+          ['f', 4]
+        ]
+      ]
+    ])).toStrictEqual({ c: 2, d: 3, e: { f: 4 }});
+
+    expect(entries2obj([[ 'f', 4 ], ['g', 5]])).toStrictEqual({f: 4, g: 5});
+  })
+
+  it('get', () => {
+    expect(get({ a: 1, b: { c: 2, d: 3, e: { f: 4 } } }, 'f')).toStrictEqual(['f', 4]);
     
-    expect(getValueByKey({ a: 1, b: { c: 2, d: 3, e: { f: 4, g: 5 } } }, 'e')).toStrictEqual([[ 'f', 4 ], ['g', 5]]);
+    expect(get({ a: 1, b: { c: 2, d: 3, e: { f: 4, g: 5 } } }, 'e')).toStrictEqual([[ 'f', 4 ], ['g', 5]]);
+  })
+
+  it('has', () => {
+      const map = new Map();
+      const set = new Set();
+
+      map.set('a', 1);
+      set.add('a');
+
+      expect(has({ a: 1, b: { c: 2, d: 3, e: { f: 4 }}}, 'ff')).toBeFalsy();
+      expect(has({ a: 1, b: { c: 2, d: 3, e: { f: 4 }}}, 'f')).toBeTruthy();
+      expect(has([1, 2, 3, 4, 5, 6], 'f')).toBeFalsy();
+      expect(has([1, 2, 3, 4, 5, 6], 5)).toBeTruthy();
+
+      expect(has(map, 5)).toBeFalsy();
+      expect(has(set, 5)).toBeFalsy();
+      expect(has(map, 'a')).toBeTruthy();
+      expect(has(set, 'a')).toBeTruthy();
+      expect(has(set, 'b')).toBeFalsy();
   })
 })

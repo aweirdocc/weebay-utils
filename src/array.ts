@@ -41,3 +41,26 @@ export const mapArray = (arr: any[], cb: (arrItem: any, arrItemIndex: number) =>
     return cb(item, index);
   })
 } 
+
+/**
+ * 数组深度拍平
+ * @param arr 
+ * @returns 
+ */
+export const flattenArray = (arr: any[]): any[] => {
+  const flattenedArray: any[] = [];
+
+  function flatten(arr: any[]) {
+    for (const item of arr) {
+      if (isArray(item)) {
+        flatten(item);
+      } else {
+        flattenedArray.push(item);
+      }
+    }
+  }
+
+  flatten(arr);
+
+  return flattenedArray;
+}

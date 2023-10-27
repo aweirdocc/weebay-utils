@@ -27,11 +27,10 @@
 - Object 类
   - getKeys
   - entries
-  - getValueByKey
-  - getValues (TODO)
-  - get (TODO)
+  - entries2obj
+  - get
   - set (TODO)
-  - has (TODO)
+  - has
   - clear (TODO)
   - array2Tree (TODO)
   - tree2array (TODO)
