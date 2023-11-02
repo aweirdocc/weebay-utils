@@ -28,7 +28,9 @@ export const entries = (val: Record<string, any>): any[] => {
 export const entries2obj = (input: any[][]): Record<string, any> => {
   const result: Record<string, any> = {};
 
-  input.forEach(([key, value]) => {
+  input?.forEach((item) => {
+    const [key, value] = item;
+
     if (isArray(value)) {
       result[key] = entries2obj(value);
     } else {
@@ -75,7 +77,7 @@ export const getKeyIndex = (obj: object, key: string): number[][] => {
   return searchIndexForKey(keys, key)
 }
 
-const helperGetter = (obj: object, key: string): any[][] => {
+export const helperGetter = (obj: object, key: string): any[][] => {
   const objEntries = entries(obj);
   const indexs = getKeyIndex(obj, key);
 
@@ -83,15 +85,15 @@ const helperGetter = (obj: object, key: string): any[][] => {
     let result = objEntries;
 
     indexList.forEach(indexVal => {
-      if (result?.[indexVal]) {
-        result = key === result[indexVal] ? result[indexVal+1] : result[indexVal];
+      if (result?.[indexVal] && key !== result[indexVal]) {
+        result = result[indexVal]
       }
     })
 
     return result;
   });
 
-  return result?.[0];
+  return result;
 }
 
 /**
@@ -100,19 +102,19 @@ const helperGetter = (obj: object, key: string): any[][] => {
  * @param key 'b' || 'a.b'
  * @returns 
  */
-export const get = (obj: object, key: string): any[][] => {
-  // const keys = key.split('.');
-  // let result: any[][] = [];
+export const get = (obj: object, key: string): any => {
+  const keys = key.split('.');
+  let result: any;
+  const beforeObj: Record<string, any> = {...obj};
 
-  // keys.forEach((itemKey, index) => {
-  //   if (index < keys.length) {
-  //     const bk = helperGetter(obj, itemKey);
-  //     entries2obj(bk)
-  //   }
-  //   result = helperGetter(obj, itemKey)
-  // })
   
-  // return result;
+  keys.forEach((itemKey, index) => {
+    const getArr = helperGetter(beforeObj, itemKey);
+
+    result = entries2obj(getArr)[itemKey];
+  })
+
+  return result;
 }
 
 export const set = (obj: object, key: string, newVal: any): boolean => {
