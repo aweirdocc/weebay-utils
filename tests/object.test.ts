@@ -1,4 +1,4 @@
-import { entries, getKeyIndex, getKeys, get, has, entries2obj, helperGetter } from './../src/object';
+import { entries, getKeyIndex, getKeys, get, has, entries2obj } from './../src/object';
 import { describe, it, expect } from 'vitest'
 
 describe('object', () => {
@@ -24,6 +24,24 @@ describe('object', () => {
     ]);
   })
 
+  it('entries2obj', () => {
+    // expect(entries2obj([])).toStrictEqual({});
+
+    // expect(entries2obj([
+    //   ['c', 2],
+    //   ['d', 3],
+    //   ['e', 
+    //     [
+    //       ['f', 4]
+    //     ]
+    //   ]
+    // ])).toStrictEqual({ c: 2, d: 3, e: { f: 4 }});
+
+    // expect(entries2obj([[ 'f', 4 ], ['g', 5]])).toStrictEqual({f: 4, g: 5});
+
+    // expect(entries2obj([['e', [[ 'f', 4 ], ['g', 5]]]])).toStrictEqual({e: { f: 4, g: 5 }});
+  })
+
   it('getKeys', () => {
     expect(getKeys({ a: 1, b: 2 })).toStrictEqual([
       'a',
@@ -46,31 +64,22 @@ describe('object', () => {
     expect(getKeyIndex({ a: 1, b: { c: 2, d: 3, e: { f: 4 } } }, 'f')).toStrictEqual([[1,1,2,1,0]])
   })
 
-  it('entries2obj', () => {
-    expect(entries2obj([])).toStrictEqual({});
-    expect(entries2obj([
-      ['c', 2],
-      ['d', 3],
-      ['e', 
-        [
-          ['f', 4]
-        ]
-      ]
-    ])).toStrictEqual({ c: 2, d: 3, e: { f: 4 }});
-
-    expect(entries2obj([[ 'f', 4 ], ['g', 5]])).toStrictEqual({f: 4, g: 5});
-
-    expect(entries2obj([['e', [[ 'f', 4 ], ['g', 5]]]])).toStrictEqual({e: { f: 4, g: 5 }});
-  })
-
   it('get', () => {
     expect(get({ a: 1, b: { c: 2, d: 3, e: { f: 4 } } }, 'f')).toStrictEqual(4);
+    expect(get({ a: 1, b: { c: null, d: 3, e: { f: 4 } } }, 'c')).toBeNull();
     expect(get({ a: 1, b: { c: 2, d: 3, e: { f: 4, g: 5 } } }, 'e.g')).toStrictEqual(5);
+    expect(get({ a: 1, b: { c: 2, d: 3, e: { f: 4, g: 5 } } }, 'b.e.g')).toStrictEqual(5);
+    expect(get({ a: 1, b: { c: 2, d: 3, e: { f: 4, g: [5, 6, 7] } } }, 'b.e.g[2]')).toStrictEqual(7);
     expect(get({ a: 1, b: { c: 2, d: 3, e: { f: 4, g: 5 } } }, 'e')).toStrictEqual({ f: 4, g: 5 });
     expect(get({ a: 1, b: { c: 2, d: 3, e: { f: 4, g: 5 } } }, 'dd')).toBeUndefined();
+    expect(get({ a: 1, b: [ 2, 3, { c: 4 }] }, 'b[0]')).toBe(2);
+    expect(get({ a: 1, b: [ 2, 3, { c: 4 }] }, 'b[2]')).toStrictEqual({c: 4});
 
-    expect(helperGetter({ a: 1, b: { c: 2, d: 3, e: { f: 4, g: 5 } } }, 'f')).toStrictEqual([['f', 4]]);
-    expect(helperGetter({ a: 1, b: { c: 2, d: 3, e: { f: 4, g: 5 } } }, 'e')).toStrictEqual([['e', [[ 'f', 4 ], ['g', 5]]]]);
+    expect(get([1,2,3,4], '3')).toBe(4);
+    expect(get([1,2,3,{a: 5}], '3.a')).toBe(5);
+    expect(get([1,2,3,{a: [5]}], '3.a[0]')).toBe(5);
+    expect(get([1,2,3,{a: [5]}], '3.a[0]')).toBe(5);
+    expect(get([1,2,3,{a: [5]}], '4')).toBeUndefined();
   })
 
   it('has', () => {

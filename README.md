@@ -22,8 +22,10 @@
   - isUrl
   - isColor
   - isEmail
+  - isInBrowser
+  - isInNode
   - isEqual (TODO)
-  - isSameDate (TODO)
+  - isSameDate
 - Object 类
   - getKeys
   - entries

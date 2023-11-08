@@ -14,7 +14,8 @@ import {
   isColor,
   isIdCard,
   isTelNumber,
-  isEqual
+  isEqual,
+  isSameDate
 } from '../src/validate'
 
 
@@ -60,6 +61,10 @@ describe('is', () => {
     expect(isEqual(1, 1)).toEqual(true);
     expect(isEqual(undefined, undefined)).toEqual(true);
     expect(isEqual(new Date('2020-01-01'), new Date('2021-01-01'))).toEqual(false);
-    expect(isEqual(new Date('2020-01-01 00:00:00'), new Date('2020-01-01 00:00:00'))).toEqual(true);
+
+    expect(isSameDate(new Date('2020-01-01 00:00:00'), new Date('2020-01-01 00:00:00'))).toEqual(true);
+    expect(isSameDate(new Date('2020-01-01 12:00:00'), '2020-01-01')).toEqual(false);
+    expect(isSameDate('2020-01-02', '2020-01-01')).toEqual(false);
+    expect(isSameDate('asasd', '2020-01-01')).toEqual(false);
   })
 })

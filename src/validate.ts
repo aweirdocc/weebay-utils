@@ -257,4 +257,30 @@ export const isEqual = (val1: unknown, val2: unknown, isDeep: boolean = true): b
   return false;
 }
 
+/**
+ * 检查是否是游览器环境
+ */
+export const isInBrowser = typeof window === 'object' && window.window === window;
 
+/**
+ * 检查是否是Node环境
+ */
+export const isInNode = typeof global === 'object' && global.global === global;
+
+/**
+ * 检查两个日期是否相同
+ * @param input1 输入值1
+ * @param input2 输入值2
+ * @returns 
+ */
+export const isSameDate = (input1: Date | string, input2: Date | string): boolean => {
+  const [ date1, date2 ] = [input1, input2].map(item => {
+    if(isString(item)) {
+      return new Date(item);
+    }
+
+    return item;
+  })
+
+  return +date1 === +date2;
+}

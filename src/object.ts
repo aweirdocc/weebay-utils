@@ -26,8 +26,10 @@ export const entries = (val: Record<string, any>): any[] => {
  * @returns 
  */
 export const entries2obj = (input: any[][]): Record<string, any> => {
-  const result: Record<string, any> = {};
+  let result: Record<string, any> = {};
 
+  if (!input.length) return result;
+ 
   input?.forEach((item) => {
     const [key, value] = item;
 
@@ -37,6 +39,12 @@ export const entries2obj = (input: any[][]): Record<string, any> => {
       result[key] = value;
     }
   })
+
+  // 如果值是一个数组，则将重构一个数组
+  const isArrayObj = Object.keys(result).every((key, index) => (key && key === `${index}`))
+  if (isArrayObj) {
+    result = mapArray(getKeys(result, false), key => result[key]);
+  }
 
   return result
 }
@@ -77,10 +85,15 @@ export const getKeyIndex = (obj: object, key: string): number[][] => {
   return searchIndexForKey(keys, key)
 }
 
-export const helperGetter = (obj: object, key: string): any[][] => {
+/**
+ * 从对象中找到响应 key 的一个 entries 数组
+ * @param obj 输入对象
+ * @param key 搜索的 key 值
+ * @returns 
+ */
+const helperGetter = (obj: object, key: string): any[][] => {
   const objEntries = entries(obj);
   const indexs = getKeyIndex(obj, key);
-
   const result = indexs.map((indexList) => {
     let result = objEntries;
 
@@ -98,20 +111,29 @@ export const helperGetter = (obj: object, key: string): any[][] => {
 
 /**
  * 找出对象的属性值
- * @param obj 
+ * @param obj [] || {}
  * @param key 'b' || 'a.b'
  * @returns 
  */
 export const get = (obj: object, key: string): any => {
-  const keys = key.split('.');
   let result: any;
+  const regex = /(.*?)\[(\d+)\]/;
+  const keys = key.split('.');
   const beforeObj: Record<string, any> = {...obj};
 
   
   keys.forEach((itemKey, index) => {
+    let subKey; // [] 里的索引
+    const match = itemKey.match(regex);
+
+    if (match) {
+      itemKey = match[1];
+      subKey = match[2];
+    }
+
     const getArr = helperGetter(beforeObj, itemKey);
 
-    result = entries2obj(getArr)[itemKey];
+    result = subKey ? entries2obj(getArr)[itemKey][subKey] : entries2obj(getArr)[itemKey];
   })
 
   return result;
@@ -122,7 +144,6 @@ export const set = (obj: object, key: string, newVal: any): boolean => {
 }
 
 export const has = (obj: any, key: any): boolean => {
-
   if(isMap(obj) || isSet(obj)) {
     return obj.has(key);
   } else if (isArray(obj) || isObject(obj)) {
