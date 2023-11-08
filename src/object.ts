@@ -29,7 +29,7 @@ export const entries2obj = (input: any[][]): Record<string, any> => {
   let result: Record<string, any> = {};
 
   if (!input.length) return result;
- 
+
   input?.forEach((item) => {
     const [key, value] = item;
 
@@ -119,16 +119,15 @@ export const get = (obj: object, key: string): any => {
   let result: any;
   const regex = /(.*?)\[(\d+)\]/;
   const keys = key.split('.');
-  const beforeObj: Record<string, any> = {...obj};
+  const beforeObj: Record<string, any> = { ...obj };
 
-  
+
   keys.forEach((itemKey, index) => {
     let subKey; // [] 里的索引
     const match = itemKey.match(regex);
 
     if (match) {
-      itemKey = match[1];
-      subKey = match[2];
+      [, itemKey, subKey] = match;
     }
 
     const getArr = helperGetter(beforeObj, itemKey);
@@ -144,15 +143,15 @@ export const set = (obj: object, key: string, newVal: any): boolean => {
 }
 
 export const has = (obj: any, key: any): boolean => {
-  if(isMap(obj) || isSet(obj)) {
+  if (isMap(obj) || isSet(obj)) {
     return obj.has(key);
-  } else if (isArray(obj) || isObject(obj)) {
+  } else if (isObject(obj)) {
     const resultArr = mapArray(getKeys(obj), (itemKey) => {
       return itemKey === key ? true : false;
     });
 
     return flattenArray(resultArr).some(item => !!item);
-  } 
-  
+  }
+
   return false;
 }

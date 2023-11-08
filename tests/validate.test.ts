@@ -57,14 +57,30 @@ describe('is', () => {
     expect(isUrl('1.com')).toEqual(true)
     expect(isUrl('http://1.com')).toEqual(true)
 
-    expect(isEqual(1, '1')).toEqual(false);
-    expect(isEqual(1, 1)).toEqual(true);
-    expect(isEqual(undefined, undefined)).toEqual(true);
-    expect(isEqual(new Date('2020-01-01'), new Date('2021-01-01'))).toEqual(false);
+   
 
     expect(isSameDate(new Date('2020-01-01 00:00:00'), new Date('2020-01-01 00:00:00'))).toEqual(true);
     expect(isSameDate(new Date('2020-01-01 12:00:00'), '2020-01-01')).toEqual(false);
     expect(isSameDate('2020-01-02', '2020-01-01')).toEqual(false);
     expect(isSameDate('asasd', '2020-01-01')).toEqual(false);
+  })
+
+  it('isEqual', () => {
+    const arr = [1,2,3,4];
+    const arr2 = arr;
+    const arr3 = [1,2,3,4, [5,6,7]];
+    const arr4 = [1,2,3,4, [5,6,7]];
+
+    const obj = {a: 1};
+    const obj2 = {a: 1};
+    expect(isEqual(1, '1')).toEqual(false);
+    expect(isEqual(1, 1)).toEqual(true);
+    expect(isEqual(undefined, undefined)).toEqual(false);
+    expect(isEqual(new Date('2020-01-01'), new Date('2021-01-01'))).toEqual(false);
+    expect(isEqual(arr, arr2)).toEqual(true);
+    expect(isEqual(arr, arr3)).toEqual(false);
+    expect(isEqual(arr3, arr4)).toEqual(true);
+    expect(isEqual({}, {})).toEqual(true);
+    expect(isEqual(obj, obj2)).toEqual(true);
   })
 })

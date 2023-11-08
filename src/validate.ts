@@ -1,3 +1,5 @@
+import { getKeys } from './object'
+
 const kindOf = ((cache: Record<string, any>) => {
   return function (val: unknown) {
     const type = Object.prototype.toString.call(val);
@@ -237,20 +239,58 @@ const compare = (v1: any, v2: any): boolean => {
 }
 
 /**
- * 传入的两个值是否相同
+ * 传入的两个对象的值是否相同
  * @param val1 
  * @param val2 
- * @param isDeep 是否深度检查
  * @returns 
  */
-export const isEqual = (val1: unknown, val2: unknown, isDeep: boolean = true): boolean => {
-  if (isPrimitiveType(val1) && isPrimitiveType(val2)) {
-    return compare(val1, val2);
+export const isEqual = (val1: any, val2: any): boolean => {
+  if (kindOf(val1) !== kindOf(val2)) {
+    return false;
   }
 
-  if (val1 && val2) {
-    if (isDate(val1)) {
-      return compare(+val1, +val2)
+  if (val1 == null || val1 == null) {
+    return false;
+  }
+
+  if (isPrimitiveType(val1) && isPrimitiveType(val2)) {
+    // 传入的是基本类型
+    return compare(val1, val2);
+  } else {
+    // 传入的是 Date 类型
+    if (isDate(val1) && isDate(val2)) {
+      return isSameDate(val1 as Date, val2 as Date);
+    }
+
+    // 检查数组类型
+    if (isArray(val1) && isArray(val2)) {
+      if (val1.length !== val2.length) return false;
+
+      for (let i = 0; i < val1.length; i++) {
+        if (!isEqual(val1[i], val2[i])) {
+          return false;
+        }
+      }
+
+      return true;
+    }
+
+    // 检查对象类型
+    if (isPlainObject(val1) && isPlainObject(val2)) {
+      const keys1 = getKeys(val1); 
+      const keys2 = getKeys(val2);
+      
+      if (!isEqual(keys1, keys2)) {
+        return false;
+      }
+
+      for (const key of keys1) {
+        if (!isEqual(val1[key], val2[key])) {
+          return false;
+        }
+      }
+  
+      return true;
     }
   }
 

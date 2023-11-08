@@ -24,7 +24,7 @@
   - isEmail
   - isInBrowser
   - isInNode
-  - isEqual (TODO)
+  - isEqual
   - isSameDate
 - Object 类
   - getKeys
