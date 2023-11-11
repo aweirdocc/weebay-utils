@@ -31,6 +31,13 @@ export const isUndefined = (val: unknown): boolean => {
 };
 
 /**
+ * 校验 Undefined 类型
+ */
+export const isNull = (val: unknown): boolean => {
+  return val === null;
+};
+
+/**
  * 校验 NaN 类型
  * @param val 
  */

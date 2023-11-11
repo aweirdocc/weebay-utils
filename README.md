@@ -4,6 +4,7 @@
 
 - Validate 类
   - isUndefined
+  - isNull
   - isNaN
   - isArray
   - isString
@@ -27,6 +28,7 @@
   - isEqual
   - isSameDate
 - Object 类
+  - clone
   - getKeys
   - entries
   - entries2obj

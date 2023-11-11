@@ -1,4 +1,4 @@
-import { entries, getKeyIndex, getKeys, get, has, entries2obj } from './../src/object';
+import { entries, getKeyIndex, getKeys, get, has, entries2obj, clone } from './../src/object';
 import { describe, it, expect } from 'vitest'
 
 describe('object', () => {

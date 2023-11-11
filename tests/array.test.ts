@@ -23,7 +23,7 @@ describe('array', () => {
   })
 
   it('mapArray', () => {
-    expect(mapArray([1, 2, [3, [4]]], (item) => item * 2)).toStrictEqual([2, 4, [6, [8]]]);
+    expect(mapArray([1, 2, [3, [4]]], (item) => item * 2, true)).toStrictEqual([2, 4, [6, [8]]]);
   })
 
   it('flattenArray', () => {

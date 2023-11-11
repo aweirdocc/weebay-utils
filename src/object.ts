@@ -1,5 +1,27 @@
 import { flattenArray, mapArray, searchIndexForKey } from "./array";
-import { isArray, isObject, isMap, isSet } from "./validate"
+import { isArray, isObject, isMap, isSet, isNull } from "./validate"
+
+type simpleObject = Record<string, any> | any[];
+
+
+/**
+ * 克隆
+ * @param input 
+ * @returns 
+ */
+export const clone = (input: any): any => {
+  if (!isObject(input) || isNull(input)) return input;
+
+  const result: any = isArray(input) ? [] : {};
+
+  for (const key in input) {
+    if (input.hasOwnProperty(key)) {
+      result[key] = clone(input[key]);
+    }
+  }
+
+  return result;
+}
 
 /**
  * 返回一个[key, value]
@@ -55,7 +77,7 @@ export const entries2obj = (input: any[][]): Record<string, any> => {
  * @param isDeep 是否递归深层属性
  * @returns 
  */
-export const getKeys = (val: object | any[], isDeep: boolean = true): any[] => {
+export const getKeys = (val: simpleObject, isDeep: boolean = true): any[] => {
   if (isArray(val)) {
     return (val as []).map((value, index) => [`${index}`, value]);
   }
@@ -91,7 +113,7 @@ export const getKeyIndex = (obj: object, key: string): number[][] => {
  * @param key 搜索的 key 值
  * @returns 
  */
-const helperGetter = (obj: object, key: string): any[][] => {
+const helperGetter = (obj: simpleObject, key: string): any[][] => {
   const objEntries = entries(obj);
   const indexs = getKeyIndex(obj, key);
   const result = indexs.map((indexList) => {
@@ -115,7 +137,7 @@ const helperGetter = (obj: object, key: string): any[][] => {
  * @param key 'b' || 'a.b'
  * @returns 
  */
-export const get = (obj: object, key: string): any => {
+export const get = (obj: simpleObject, key: string): any => {
   let result: any;
   const regex = /(.*?)\[(\d+)\]/;
   const keys = key.split('.');
@@ -138,7 +160,25 @@ export const get = (obj: object, key: string): any => {
   return result;
 }
 
-export const set = (obj: object, key: string, newVal: any): boolean => {
+export const set = (obj: simpleObject, key: string, newVal: any): boolean => {
+  // const objEntries: any[][] = entries(obj);
+  // const keys: any[] = key.split('.');
+  // const stepArr: any[] = [];
+  // const backupObj: any[][] = clone(objEntries);
+
+  // keys.forEach((itemKey, index) => {
+  //   const searchArr = index ? backupObj[stepArr[index]] : backupObj;
+  //   // 检查是否存在对应的 key
+  //   const hasKey = searchArr.some(([key]) => key === itemKey);
+
+  //   if (hasKey) {
+  //     // 
+  //   } else {
+  //     objEntries.push([itemKey, index === keys.length ? newVal : []]);
+  //     stepArr.push(objEntries.length - 1);
+  //   }
+  // })
+
   return false;
 }
 
@@ -148,7 +188,7 @@ export const has = (obj: any, key: any): boolean => {
   } else if (isObject(obj)) {
     const resultArr = mapArray(getKeys(obj), (itemKey) => {
       return itemKey === key ? true : false;
-    });
+    }, true);
 
     return flattenArray(resultArr).some(item => !!item);
   }

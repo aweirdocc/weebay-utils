@@ -27,15 +27,16 @@ export const searchIndexForKey = (arr: any[], key: any): any[] => {
 }
 
 /**
- * 深度循环遍历数组
+ * 循环遍历数组
  * @param arr 
  * @param cb 
+ * @param isDeep 是否深度遍历，默认为否
  * @returns 
  */
-export const mapArray = (arr: any[], cb: (arrItem: any, arrItemIndex: number) => void): any[] => {
+export const mapArray = (arr: any[], cb: (arrItem: any, arrItemIndex: number) => void, isDeep: boolean = false): any[] => {
   return arr.map((item, index) => {
-    if (isArray(item)) {
-      return mapArray(item, cb);
+    if (isDeep && isArray(item)) {
+      return mapArray(item, cb, isDeep);
     }
 
     return cb(item, index);
