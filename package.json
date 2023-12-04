@@ -1,7 +1,7 @@
 {
-  "name": "weebay-utils",
+  "name": "@weebat/utils",
   "type": "module",
-  "version": "1.0.8",
+  "version": "0.0.1",
   "description": "personal toolkit",
   "repository": {
     "type": "git",
@@ -20,7 +20,7 @@
     "typecheck": "tsc --noEmit",
     "lint": "eslint .",
     "prepare": "simple-git-hooks",
-    "release": "npm run build && npm publish",
+    "release": "npm run build && npm publish --access public",
     "test": "vitest"
   },
   "files": [
