@@ -61,7 +61,7 @@ export const scrollTo = (to: number = 0, during: number = 300): void => {
     const now = +new Date();
     const val = Math.min(1, (now - startDate) / during);
 
-    window.scrollTo(0, currentTop + change * val);
+    window.scrollTo(0, currentTop - change * val);
 
     if (val < 1) {
       requestAnimationFrame(move);
