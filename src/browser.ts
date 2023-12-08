@@ -16,6 +16,20 @@ export const getClientHeight = (): number => {
 };
 
 /**
+ * 获取 ScrollTop
+ */
+export const getScrollTop = (): number => {
+  return document?.documentElement?.scrollTop ?? document?.body?.scrollTop;
+}
+
+/**
+ * 获取 ScrollHeight
+ */
+export const getScrollHeight = (): number => {
+  return document?.documentElement?.scrollHeight ?? document?.body?.scrollHeight;
+}
+
+/**
  * URL 的查询字符串
  */
 export const getUrlParams = (url: string): URLSearchParams => {
@@ -54,7 +68,7 @@ export const setObjToUrlParams = (baseUrl: string, paramsObj: Record<string, any
  */
 export const scrollTo = (to: number = 0, during: number = 300): void => {
   const startDate = +new Date();
-  const currentTop = document?.documentElement?.scrollTop ?? document?.body?.scrollTop;
+  const currentTop = getScrollTop();
   const change = currentTop - to;
 
   const move = () => {
@@ -82,12 +96,13 @@ export const scrollToTop = (): void => {
  * 滚动到底部
  */
 export const scrollToBottom = (): void => {
-  const currentTop = document?.documentElement?.scrollTop ?? document?.body?.scrollTop;
-  const scrollHeight = document?.documentElement?.scrollHeight ?? document?.body?.scrollHeight;
+  const currentTop = getScrollTop();
+  const scrollHeight = getScrollHeight();
+  const clientHeight = getClientHeight();
 
-  if (currentTop < scrollHeight) {
+  if (currentTop < scrollHeight - clientHeight) {
     window.requestAnimationFrame(scrollToBottom);
-    window.scrollTo(0, currentTop + currentTop / 8);
+    window.scrollTo(0, currentTop + clientHeight / 16);
   }
 };
 

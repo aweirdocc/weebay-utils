@@ -1,7 +1,7 @@
 {
   "name": "@weebat/utils",
   "type": "module",
-  "version": "0.0.1",
+  "version": "0.0.4",
   "description": "personal toolkit",
   "repository": {
     "type": "git",
