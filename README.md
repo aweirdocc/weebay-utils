@@ -48,6 +48,8 @@
 - Browser 类
   - getClientWidth
   - getClientHeight
+  - getScrollTop
+  - getScrollHeight
   - getUrlParams
   - setObjToUrlParams
   - scrollTo
@@ -59,4 +61,3 @@
 - Array 类
   - mapArray
   - searchIndexForKey
-
