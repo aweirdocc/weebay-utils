@@ -55,6 +55,9 @@
   - scrollTo
   - scrollToTop
   - scrollToBottom
+  - copyToClipboard
+  - file2Blob
+  - blob2Base64
 - String 类
   - camelCase2Delimiter
   - delimiter2CamelCase  
